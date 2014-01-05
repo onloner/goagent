@@ -164,6 +164,7 @@ def application(environ, start_response):
             if need_encrypt:
                 data = cipher.encrypt(data)
             yield data
+            del data
     except Exception as e:
         import traceback
         if not header_sent:

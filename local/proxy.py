@@ -1837,6 +1837,7 @@ class RangeFetch(object):
             try:
                 self.wfile.write(data)
                 self.expect_begin += len(data)
+                del data
             except Exception as e:
                 logging.info('RangeFetch client connection aborted(%s).', e)
                 break
@@ -2129,6 +2130,7 @@ class GAEProxyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 if not data:
                     break
                 self.wfile.write(data)
+                del data
             response.close()
         except NetWorkIOError as e:
             if e.args[0] in (errno.ECONNRESET, 10063, errno.ENAMETOOLONG):
@@ -2253,6 +2255,7 @@ class GAEProxyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                         break
                     start += len(data)
                     self.wfile.write(data)
+                    del data
                     if start >= end:
                         break
                 response.close()
@@ -2532,6 +2535,7 @@ class PHPProxyHandler(GAEProxyHandler):
                 if cipher:
                     data = cipher.encrypt(data)
                 self.wfile.write(data)
+                del data
             response.close()
         except NetWorkIOError as e:
             # Connection closed before proxy return

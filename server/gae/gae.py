@@ -246,6 +246,7 @@ def application(environ, start_response):
         yield struct.pack('!hh', int(response.status_code), len(response_headers_data))
         yield rc4crypt(response_headers_data, __password__)
         yield rc4crypt(data, __password__)
+    del data, response
 
 
 class LegacyHandler(object):
